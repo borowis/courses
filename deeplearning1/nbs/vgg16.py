@@ -15,6 +15,7 @@ from keras.layers.convolutional import Convolution2D, MaxPooling2D, ZeroPadding2
 from keras.layers.pooling import GlobalAveragePooling2D
 from keras.optimizers import SGD, RMSprop, Adam
 from keras.preprocessing import image
+from keras_tqdm import TQDMNotebookCallback
 
 # In case we are going to use the TensorFlow backend we need to explicitly set the Theano image ordering
 from keras import backend as K
@@ -210,7 +211,8 @@ class Vgg16():
             See Keras documentation: https://keras.io/models/model/
         """
         self.model.fit_generator(batches, samples_per_epoch=batches.nb_sample, nb_epoch=nb_epoch,
-                validation_data=val_batches, nb_val_samples=val_batches.nb_sample, verbose=2)
+                validation_data=val_batches, nb_val_samples=val_batches.nb_sample, verbose=0, 
+                callbacks=[TQDMNotebookCallback(leave_inner=True, leave_outer=True)])
 
 
     def test(self, path, batch_size=8):
